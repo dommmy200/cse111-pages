@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)https://byui-cse.github.io/cse111-course/lesson09/prepare.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>09 Prepare: Text Files</title>
+    <script defer="" src="./09 Prepare_ Text Files_files/main.js"></script>
+    <script defer="" src="./09 Prepare_ Text Files_files/highlight.min.js"></script>
+    <link rel="stylesheet" href="./09 Prepare_ Text Files_files/css2">
+    <link rel="stylesheet" href="./09 Prepare_ Text Files_files/reset.css">
+    <link rel="stylesheet" href="./09 Prepare_ Text Files_files/style.css">
+    <link rel="stylesheet" href="./09 Prepare_ Text Files_files/vscode.css">
+    <link rel="icon" type="image/png" href="https://byui-cse.github.io/cse111-course/site/icons/logo.png">
+    <link rel="canonical" href="https://byui-cse.github.io/cse111-course/lesson09/prepare.html">
+    <link rel="prev" type="text/html" href="https://byui-cse.github.io/cse111-course/lesson08/prove.html">
+    <link rel="next" type="text/html" href="https://byui-cse.github.io/cse111-course/lesson09/check.html">
+    <meta name="description" content="Explains and demonstrates how to read data from a text file and how to use the Python csv module to read data from a CSV file into a list or dictionary">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "Article",
+        "headline": "09 Prepare: Text Files",
+        "description": "Explains and demonstrates how to read data from a text file and how to use the Python csv module to read data from a CSV file into a list or dictionary",
+        "educationalUse": "instruction",
+        "copyrightNotice": "Copyright © 2020, Brigham Young University–Idaho. All rights reserved.",
+        "datePublished": "2020-03-27",
+        "dateModified": "2022-12-08"
+    }
+    </script>
+</head>
+
+<body class="dark">
+<header><a class="byuiLogo" title="BYU-Idaho Website" href="https://www.byui.edu/"><svg viewBox="0 0 88.48 52.39"><title>BYU-Idaho Logo</title><use href="#svgBYUILogo"></use></svg></a><h2><a title="CSE 111 Content" href="https://byui-cse.github.io/cse111-course/index.html">CSE 111 | Programming with Functions</a></h2><svg viewBox="0 0 56 64" class="menuIcon" id="menuOpen"><title>Click to open the navigation menu</title><use href="#svgBars"></use></svg><svg viewBox="0 0 56 64" class="menuIcon closed" id="menuClose"><title>Click to close the navigation menu</title><use href="#svgClose"></use></svg></header><nav class="menu closed"><ul><li class="light" title="Change to light mode"><svg viewBox="0 0 64 64"><title>Change to light mode</title><use href="#svgSun"></use></svg> Light Mode</li><li class="dark" title="Change to dark mode"><svg viewBox="0 0 64 64"><title>Change to dark mode</title><use href="#svgMoon"></use></svg> Dark Mode</li><li class="first" title="View list of contents for CSE 111"><a href="https://byui-cse.github.io/cse111-course/index.html"><svg viewBox="0 0 64 64"><title>View list of contents for CSE 111</title><use href="#svgList"></use></svg> Contents</a></li><li title="View previous document"><a href="https://byui-cse.github.io/cse111-course/lesson08/prove.html"><svg viewBox="0 0 64 64"><title>View previous document</title><use href="#svgLeft"></use></svg> Previous Document</a></li><li title="View next document"><a href="https://byui-cse.github.io/cse111-course/lesson09/check.html"><svg viewBox="0 0 64 64"><title>View next document</title><use href="#svgRight"></use></svg> Next Document</a></li><li class="first" title="Search the CSE 111 content"><a href="https://byui-cse.github.io/cse111-course/index.html#search"><svg viewBox="0 0 64 64"><title>Search the CSE 111 content</title><use href="#svgMagnify"></use></svg> Search</a></li><li title="Get help for CSE 111"><a href="https://byui-cse.github.io/cse111-course/overview/help.html"><svg viewBox="0 0 64 64"><title>Get help for CSE 111</title><use href="#svgQuestion"></use></svg> Help</a></li><li class="first" title="Download a PDF that contains all
+CSE 111 HTML preparation content"><a download="" href="https://byui-cse.github.io/cse111-course/combined/cse111_prepare_content.pdf"><svg viewBox="0 0 384 512"><title>Download a PDF that contains all
+CSE 111 HTML preparation content</title><use href="#svgFilePDF"></use></svg> .pdf File</a></li><li title="Download a zip file that
+contains all CSE 111 content"><a download="" href="https://byui-cse.github.io/cse111-course/combined/cse111_content.zip"><svg viewBox="0 0 384 512"><title>Download a zip file that
+contains all CSE 111 content</title><use href="#svgFileZip"></use></svg> .zip File</a></li></ul></nav><article>
+    <h1>09 Prepare: Text Files</h1>
+    <p>Most computers permanently store lots of data on devices such as
+    hard drives, solid state drives, and thumb drives. The data that is
+    stored on these devices is organized into files. Just as a human can
+    write words on a paper, a computer can store words and other data in
+    a file. During this lesson, you will learn how to write Python code
+    that reads text from text files.</p>
+
+    <h2 id="concepts">Concepts<span class="copy" title="Copy URL to the clipboard">§</span></h2>
+    <p>Broadly speaking, there are two types of files: text files and
+    binary files. A <dfn>text file</dfn> stores words and numbers as
+    human readable text. A <dfn>binary file</dfn> stores pictures,
+    diagrams, sounds, music, movies, and other media as numbers in a
+    format that is not directly readable by humans.</p>
+
+    <h3 id="text_files">Text Files<span class="copy" title="Copy URL to the clipboard">§</span></h3>
+    <p>In order to read data from a text file, the file must exist on
+    one of the computer’s drives, and your program must do these three
+    things:</p>
+
+    <ol>
+        <li><div>Open the file for reading text</div></li>
+        <li><div>Read from the file, usually one line of text at a
+        time</div></li>
+        <li><div>Close the file</div></li>
+    </ol>
+
+    <p>The built-in <a href="https://docs.python.org/3/library/functions.html#open"><code>open</code> function</a>
+    opens a file for reading or writing. Here is an excerpt
+    from the official documentation for the <code>open</code>
+    function:</p>
+
+    <dl class="function">
+        <dt><pre class="python hljs"><span class="hljs-built_in">open</span>(filename, mode=<span class="hljs-string">"rt"</span>)</pre></dt>
+        <dd><p>Open a file and return a corresponding file
+        object.</p>
+        <p><var>filename</var> is the name of the file to be
+        opened.</p>
+        <p><var>mode</var> is an optional string that specifies the
+        mode in which the file will be opened. It defaults to
+        <code>"rt"</code> which means open for reading in text mode.
+        Other common values are <code>"wt"</code> for writing a text
+        file (truncating the file if it already exists), and
+        <code>"at"</code> for appending to the end of a text
+        file.</p></dd>
+    </dl>
+
+    <p>Example&nbsp;1 contains a program that opens a text file named
+    <a download="download" href="https://byui-cse.github.io/cse111-course/lesson09/plants.txt"><code>plants.txt</code></a>
+    for reading at <span class="cross" data-ref="ex1" title="Move mouse over to turn on highlights.
+Click to keep highlights on.">line&nbsp;26</span>.
+    At <span class="cross" data-ref="ex1" title="Move mouse over to turn on highlights.
+Click to keep highlights on.">line&nbsp;30</span> there is a
+    <code>for</code> loop that reads the text in the file one line at a
+    time and repeats the body of the for loop once <code>for</code> each
+    line of text in the file. In the body of the <code>for</code> loop
+    at lines&nbsp;<span class="cross" data-ref="ex1" title="Move mouse over to turn on highlights.
+Click to keep highlights on.">32–38</span>,
+    the code removes surrounding white space, if there is any, from each
+    line of text and then stores each line of text in a list.</p>
+
+<div class="example" id="ex1"><pre class="linenums"><span>1</span>
+<span>2</span>
+<span>3</span>
+<span>4</span>
+<span>5</span>
+<span>6</span>
+<span>7</span>
+<span>8</span>
+<span>9</span>
+<span>10</span>
+<span>11</span>
+<span>12</span>
+<span>13</span>
+<span>14</span>
+<span>15</span>
+<span>16</span>
+<span>17</span>
+<span>18</span>
+<span>19</span>
+<span>20</span>
+<span>21</span>
+<span>22</span>
+<span>23</span>
+<span>24</span>
+<span>25</span>
+<span>26</span>
+<span>27</span>
+<span>28</span>
+<span>29</span>
+<span class="">30</span>
+<span class="">31</span>
+<span class="">32</span>
+<span class="">33</span>
+<span class="">34</span>
+<span class="">35</span>
+<span class="">36</span>
+<span class="">37</span>
+<span class="">38</span>
+<span>39</span>
+<span>40</span>
+<span>41</span>
+<span>42</span>
+<span>43</span>
+<span>44</span>
+<span>45</span>
+<span>46</span></pre>
+<div class="code"><pre class="python hljs"><span class="hljs-comment"># Example 1</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>():</span>
+    <span class="hljs-comment"># Read the contents of a text file</span>
+    <span class="hljs-comment"># named plants.txt into a list.</span>
+    text_list = read_list(<span class="hljs-string">"plants.txt"</span>)
+
+    <span class="hljs-comment"># Print the entire list.</span>
+    <span class="hljs-built_in">print</span>(text_list)
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">read_list</span>(<span class="hljs-params">filename</span>):</span>
+    <span class="hljs-string">"""Read the contents of a text file into a list and
+    return the list. Each element in the list will contain
+    one line of text from the text file.
+
+    Parameter filename: the name of the text file to read
+    Return: a list of strings
+    """</span>
+    <span class="hljs-comment"># Create an empty list that will store</span>
+    <span class="hljs-comment"># the lines of text from the text file.</span>
+    text_list = []
+
+    <span class="hljs-comment"># Open the text file for reading and store a reference</span>
+    <span class="hljs-comment"># to the opened file in a variable named text_file.</span>
+    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(filename, <span class="hljs-string">"rt"</span>) <span class="hljs-keyword">as</span> text_file:
+
+        <span class="hljs-comment"># Read the contents of the text</span>
+        <span class="hljs-comment"># file one line at a time.</span>
+        <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> text_file:
+
+            <span class="hljs-comment"># Remove white space, if there is any,</span>
+            <span class="hljs-comment"># from the beginning and end of the line.</span>
+            clean_line = line.strip()
+
+            <span class="hljs-comment"># Append the clean line of text</span>
+            <span class="hljs-comment"># onto the end of the list.</span>
+            text_list.append(clean_line)
+
+    <span class="hljs-comment"># Return the list that contains the lines of text.</span>
+    <span class="hljs-keyword">return</span> text_list
+
+
+<span class="hljs-comment"># Call main to start this program.</span>
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    main()</pre><button class="copy" type="button" title="Copy code to the clipboard"><svg viewBox="0 0 512 512"><title>Copy code to the clipboard</title><use href="#svgCopy"></use></svg></button></div>
+
+<pre class="console" title="Terminal Window">&gt; python example_1.py
+['baobab', 'kangaroo paw', 'eucalyptus', 'heliconia', 'tulip',
+'chupasangre cactus', 'prickly pear cactus', 'ginkgo biloba']</pre>
+</div>
+
+    <p>After the body of a <code>for</code> loop that reads from a
+    file, we can write a call to the <code>file.close</code> method.
+    However, when calling the <code>open</code> function, most
+    programmers use a <code>with</code> block as shown in example&nbsp;1
+    at <span class="cross" data-ref="ex1" title="Move mouse over to turn on highlights.
+Click to keep highlights on.">line&nbsp;26</span> and nest
+    the <code>for</code> loop inside the <code>with</code> block as
+    shown at
+    lines&nbsp;<span class="cross" data-ref="ex1" title="Move mouse over to turn on highlights.
+Click to keep highlights on.">30–38</span>.
+    When the <code>with</code> block ends, the computer will
+    automatically close the file, so that the programmer doesn’t have to
+    write a call to the <code>file.close</code> method.</p>
+
+    <h3 id="csv_files">CSV Files<span class="copy" title="Copy URL to the clipboard">§</span></h3>
+    <p>Many computer systems import and export data in CSV files. CSV is
+    an acronym for comma separated values. A <dfn>CSV file</dfn> is a
+    text file that contains tabular data with each row on a separate
+    line of the file and each cell (column) separated by a comma. The
+    following example shows the contents of a CSV file named
+    <a download="" href="https://byui-cse.github.io/cse111-course/lesson09/hymns.csv"><code>hymns.csv</code></a> that stores
+    data about religious songs. Notice that the first row of the file
+    contains column headings, the next four rows contain data about four
+    hymns, and each row contains three columns separated by commas.</p>
+
+<div class="example"><div class="code"><pre class="csv">Title,Author,Composer
+O Holy Night,John Dwight,Adolphe Adam
+Away in a Manger,Anonymous,William Kirkpatrick
+Joy to the World,Isaac Watts,George Handel
+With Wondering Awe,Anonymous,Anonymous
+</pre><button class="copy" type="button" title="Copy code to the clipboard"><svg viewBox="0 0 512 512"><title>Copy code to the clipboard</title><use href="#svgCopy"></use></svg></button></div></div>
+
+    <p>Python has a standard
+    <a href="https://docs.python.org/3/library/csv.html">module named <code>csv</code></a>
+    that includes functionality to read from and write to CSV files. The
+    program in example&nbsp;2 shows how to open a CSV file and use the
+    <code>csv</code> module to read the data and print it to a terminal
+    window. In example&nbsp;2 at
+    <span class="cross" data-ref="ex2" title="Move mouse over to turn on highlights.
+Click to keep highlights on.">line&nbsp;8</span>, there is a
+    call to the Python built-in <code>open</code> function, which opens
+    the <code>hymns.csv</code> file for reading. At
+    <span class="cross" data-ref="ex2" title="Move mouse over to turn on highlights.
+Click to keep highlights on.">line&nbsp;12</span>, the program
+    creates a <code>csv.reader</code> object that will read from the
+    <code>hymns.csv</code> file. Within the <code>for</code> loop at
+    lines&nbsp;<span class="cross" data-ref="ex2" title="Move mouse over to turn on highlights.
+Click to keep highlights on.">16 and&nbsp;17</span>
+    the <code>csv.reader</code> reads and prints each row from the CSV
+    file.</p>
+
+<div class="example" id="ex2"><pre class="linenums"><span>1</span>
+<span>2</span>
+<span>3</span>
+<span>4</span>
+<span>5</span>
+<span>6</span>
+<span>7</span>
+<span>8</span>
+<span>9</span>
+<span>10</span>
+<span>11</span>
+<span>12</span>
+<span>13</span>
+<span>14</span>
+<span>15</span>
+<span>16</span>
+<span>17</span>
+<span>18</span>
+<span>19</span>
+<span>20</span>
+<span>21</span>
+<span>22</span></pre>
+<div class="code"><pre class="python hljs"><span class="hljs-comment"># Example 2</span>
+
+<span class="hljs-keyword">import</span> csv
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>():</span>
+    <span class="hljs-comment"># Open the CSV file for reading and store a reference</span>
+    <span class="hljs-comment"># to the opened file in a variable named csv_file.</span>
+    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">"hymns.csv"</span>, <span class="hljs-string">"rt"</span>) <span class="hljs-keyword">as</span> csv_file:
+
+        <span class="hljs-comment"># Use the csv module to create a reader object</span>
+        <span class="hljs-comment"># that will read from the opened CSV file.</span>
+        reader = csv.reader(csv_file)
+
+        <span class="hljs-comment"># Read the rows in the CSV file one row at a time.</span>
+        <span class="hljs-comment"># The reader object returns each row as a list.</span>
+        <span class="hljs-keyword">for</span> row_list <span class="hljs-keyword">in</span> reader:
+            <span class="hljs-built_in">print</span>(row_list)
+
+
+<span class="hljs-comment"># Call main to start this program.</span>
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    main()</pre><button class="copy" type="button" title="Copy code to the clipboard"><svg viewBox="0 0 512 512"><title>Copy code to the clipboard</title><use href="#svgCopy"></use></svg></button></div>
+
+<pre class="console" title="Terminal Window">&gt; python example_2.py
+['Title', 'Author', 'Composer']
+['O Holy Night', 'John Dwight', 'Adolphe Adam']
+['Away in a Manger', 'Anonymous', 'William Kirkpatrick']
+['Joy to the World', 'Isaac Watts', 'George Handel']
+['With Wondering Awe', 'Anonymous', 'Anonymous']</pre>
+</div>
+
+    <p>When a <code>csv.reader</code> reads a row from a CSV file, the
+    reader returns the row as a list of strings. The output from
+    example&nbsp;2 shows that a <code>csv.reader</code> returns a list
+    of strings. In the output, notice the five lists of strings,
+    (strings surrounded by square brackets [&nbsp;…&nbsp;]) that
+    were printed by the print statement at
+    <span class="cross" data-ref="ex2" title="Move mouse over to turn on highlights.
+Click to keep highlights on.">line&nbsp;17</span>. Notice also
+    that the reader reads all the rows from a CSV file, including the
+    first row, which contains column headings.</p>
+
+    <p>You might recall that in CSE&nbsp;110, you wrote a program that
+    reads from a CSV file without using a <code>csv.reader</code>. That
+    program split each row of text from the CSV file using the string
+    <code>split</code> method. Unfortunately, using the
+    <code>split</code> method will not work for all CSV files. Consider
+    the following <code>hymns.csv</code> file that contains rows for the
+    hymns "Far, Far Way on Judea's Plains" and "Oh, Come, All Ye
+    Faithful". Both of these hymns have commas in their titles. If we
+    use the string <code>split</code> method to separate the columns in
+    this CSV file, the hymn titles will be split. A
+    <code>csv.reader</code> will correctly split rows in all valid CSV
+    files.</p>
+
+<div class="example"><div class="code"><pre class="csv">Title,Author,Composer
+"Far, Far Way on Judea's Plains",John Mcfarlane,John Mcfarlane
+"Oh, Come, All Ye Faithful",John Wade,John Wade
+"Christ the Lord is Risen Today",Charles Wesley,Anonymous
+</pre><button class="copy" type="button" title="Copy code to the clipboard"><svg viewBox="0 0 512 512"><title>Copy code to the clipboard</title><use href="#svgCopy"></use></svg></button></div></div>
+
+    <h3 id="process_rows">Processing Each Row in a CSV File<span class="copy" title="Copy URL to the clipboard">§</span></h3>
+    <p>After reading each row from a CSV file, the <code>for</code> loop
+    in the previous example simply prints the row list to a terminal
+    window. Of course, a <code>for</code> loop can do much more than
+    simply print each row. Consider the following CSV file named
+    <a download="" href="https://byui-cse.github.io/cse111-course/lesson09/dentists.csv"><code>dentists.csv</code></a>
+    that stores data about dental offices. Notice that the first row of
+    the file contains column headings, the next four rows contain data
+    about four dental offices, and each row contains five columns
+    separated by commas.</p>
+
+<div class="example"><div class="code"><pre class="csv">Company Name,Address,Phone Number,Employees,Patients
+Eagle Rock Dental Care,556 Trejo Suite C,208-359-2224,7,1205
+Apple Tree Dental,33 Winn Drive Suite 2,208-359-1500,10,1520
+Rockhouse Dentistry,106 E 1st N,208-356-5600,12,1982
+Cornerstone Family Dental,44 S Center Street,208-356-4240,8,1453
+</pre><button class="copy" type="button" title="Copy code to the clipboard"><svg viewBox="0 0 512 512"><title>Copy code to the clipboard</title><use href="#svgCopy"></use></svg></button></div></div>
+
+    <p>The program in example&nbsp;3 processes each row in the
+    <code>dentists.csv</code> file to determine which dental office has
+    the most patients per employee. Notice that the first row of the
+    <code>dentists.csv</code> file contains column headings. The
+    headings contain no numbers and aren’t needed for the calculations,
+    so the program skips the first row by calling the built-in
+    <code>next</code> function at
+    <span class="cross" data-ref="ex3" title="Move mouse over to turn on highlights.
+Click to keep highlights on.">line&nbsp;25</span>.</p>
+
+<div class="example" id="ex3"><pre class="linenums"><span>1</span>
+<span>2</span>
+<span>3</span>
+<span>4</span>
+<span>5</span>
+<span>6</span>
+<span>7</span>
+<span>8</span>
+<span>9</span>
+<span>10</span>
+<span>11</span>
+<span>12</span>
+<span>13</span>
+<span>14</span>
+<span>15</span>
+<span>16</span>
+<span>17</span>
+<span>18</span>
+<span>19</span>
+<span>20</span>
+<span>21</span>
+<span>22</span>
+<span>23</span>
+<span>24</span>
+<span>25</span>
+<span>26</span>
+<span>27</span>
+<span>28</span>
+<span>29</span>
+<span>30</span>
+<span>31</span>
+<span>32</span>
+<span>33</span>
+<span>34</span>
+<span>35</span>
+<span>36</span>
+<span>37</span>
+<span>38</span>
+<span>39</span>
+<span>40</span>
+<span>41</span>
+<span>42</span>
+<span>43</span>
+<span>44</span>
+<span>45</span>
+<span>46</span>
+<span>47</span>
+<span>48</span>
+<span>49</span>
+<span>50</span>
+<span>51</span>
+<span>52</span>
+<span>53</span>
+<span>54</span>
+<span>55</span>
+<span>56</span>
+<span>57</span>
+<span>58</span>
+<span>59</span></pre>
+<div class="code"><pre class="python hljs"><span class="hljs-comment"># Example 3</span>
+
+<span class="hljs-keyword">import</span> csv
+
+<span class="hljs-comment"># Indexes of some of the columns</span>
+<span class="hljs-comment"># in the dentists.csv file.</span>
+COMPANY_NAME_INDEX = <span class="hljs-number">0</span>
+NUM_EMPS_INDEX = <span class="hljs-number">3</span>
+NUM_PATIENTS_INDEX = <span class="hljs-number">4</span>
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>():</span>
+    <span class="hljs-comment"># Open a file named dentists.csv and store a reference</span>
+    <span class="hljs-comment"># to the opened file in a variable named dentists_file.</span>
+    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">"dentists.csv"</span>, <span class="hljs-string">"rt"</span>) <span class="hljs-keyword">as</span> dentists_file:
+
+        <span class="hljs-comment"># Use the csv module to create a reader</span>
+        <span class="hljs-comment"># object that will read from the opened file.</span>
+        reader = csv.reader(dentists_file)
+
+        <span class="hljs-comment"># The first row of the CSV file contains column</span>
+        <span class="hljs-comment"># headings and not data about a dental office,</span>
+        <span class="hljs-comment"># so this statement skips the first row of the</span>
+        <span class="hljs-comment"># CSV file.</span>
+        <span class="hljs-built_in">next</span>(reader)
+
+        running_max = <span class="hljs-number">0</span>
+        most_office = <span class="hljs-literal">None</span>
+
+        <span class="hljs-comment"># Read each row in the CSV file one at a time.</span>
+        <span class="hljs-comment"># The reader object returns each row as a list.</span>
+        <span class="hljs-keyword">for</span> row_list <span class="hljs-keyword">in</span> reader:
+
+            <span class="hljs-comment"># For the current row, retrieve the</span>
+            <span class="hljs-comment"># values in columns 0, 3, and 4.</span>
+            company = row_list[COMPANY_NAME_INDEX]
+            num_employees = <span class="hljs-built_in">int</span>(row_list[NUM_EMPS_INDEX])
+            num_patients = <span class="hljs-built_in">int</span>(row_list[NUM_PATIENTS_INDEX])
+
+            <span class="hljs-comment"># Compute the number of patients per</span>
+            <span class="hljs-comment"># employee for the current dental office.</span>
+            patients_per_emp = num_patients / num_employees
+
+            <span class="hljs-comment"># If the current dental office has more</span>
+            <span class="hljs-comment"># patients per employee than the running</span>
+            <span class="hljs-comment"># maximum, assign running_max and most_office</span>
+            <span class="hljs-comment"># to be the current dental office.</span>
+            <span class="hljs-keyword">if</span> patients_per_emp &gt; running_max:
+                running_max = patients_per_emp
+                most_office = company
+
+    <span class="hljs-comment"># Print the results for the user to see.</span>
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f"<span class="hljs-subst">{most_office}</span> has <span class="hljs-subst">{running_max:<span class="hljs-number">.1</span>f}</span>"</span>
+            <span class="hljs-string">" patients per employee"</span>)
+
+
+<span class="hljs-comment"># Call main to start this program.</span>
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    main()</pre><button class="copy" type="button" title="Copy code to the clipboard"><svg viewBox="0 0 512 512"><title>Copy code to the clipboard</title><use href="#svgCopy"></use></svg></button></div>
+
+<pre class="console" title="Terminal Window">&gt; python example_3.py
+Cornerstone Family Dental has 181.6 patients per employee</pre>
+</div>
+
+    <h3 id="csv_to_list">Reading a CSV File into a Compound List<span class="copy" title="Copy URL to the clipboard">§</span></h3>
+    <p>The program in example&nbsp;3 reads and processes each row in a
+    CSV file. That program needs to access the data in each row once
+    only. If a program needs to access the contents of a CSV file multiple
+    times, the program can read the contents of the file into a compound
+    list and then access the data from the list. The program in
+    example&nbsp;4 contains a function named
+    <code>read_compound_list</code> that reads the contents of a CSV
+    file into a compound list.</p>
+
+<div class="example" id="ex4"><pre class="linenums"><span>1</span>
+<span>2</span>
+<span>3</span>
+<span>4</span>
+<span>5</span>
+<span>6</span>
+<span>7</span>
+<span>8</span>
+<span>9</span>
+<span>10</span>
+<span>11</span>
+<span>12</span>
+<span>13</span>
+<span>14</span>
+<span>15</span>
+<span>16</span>
+<span>17</span>
+<span>18</span>
+<span>19</span>
+<span>20</span>
+<span>21</span>
+<span>22</span>
+<span>23</span>
+<span>24</span>
+<span>25</span>
+<span>26</span>
+<span>27</span>
+<span>28</span>
+<span>29</span>
+<span>30</span>
+<span>31</span>
+<span>32</span>
+<span>33</span>
+<span>34</span>
+<span>35</span>
+<span>36</span>
+<span>37</span>
+<span>38</span>
+<span>39</span>
+<span>40</span>
+<span>41</span>
+<span>42</span>
+<span>43</span>
+<span>44</span>
+<span>45</span>
+<span>46</span>
+<span>47</span>
+<span>48</span>
+<span>49</span>
+<span>50</span>
+<span>51</span>
+<span>52</span>
+<span>53</span></pre>
+<div class="code"><pre class="python hljs"><span class="hljs-comment"># Example 4</span>
+
+<span class="hljs-keyword">import</span> csv
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>():</span>
+    <span class="hljs-comment"># Read the contents of the dentists.csv file</span>
+    <span class="hljs-comment"># into a compound list.</span>
+    dentists_list = read_compound_list(<span class="hljs-string">"dentists.csv"</span>)
+
+    <span class="hljs-comment"># Print the entire list.</span>
+    <span class="hljs-built_in">print</span>(dentists_list)
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">read_compound_list</span>(<span class="hljs-params">filename</span>):</span>
+    <span class="hljs-string">"""Read the contents of a CSV file into a compound
+    list and return the list. Each element in the
+    compound list will be a small list that contains
+    the values from one row of the CSV file.
+
+    Parameter filename: the name of the CSV file to read
+    Return: a list of lists that contain strings
+    """</span>
+    <span class="hljs-comment"># Create an empty list that will</span>
+    <span class="hljs-comment"># store the data from the CSV file.</span>
+    compound_list = []
+
+    <span class="hljs-comment"># Open the CSV file for reading and store a reference</span>
+    <span class="hljs-comment"># to the opened file in a variable named csv_file.</span>
+    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(filename, <span class="hljs-string">"rt"</span>) <span class="hljs-keyword">as</span> csv_file:
+
+        <span class="hljs-comment"># Use the csv module to create a reader object</span>
+        <span class="hljs-comment"># that will read from the opened CSV file.</span>
+        reader = csv.reader(csv_file)
+
+        <span class="hljs-comment"># Read the rows in the CSV file one row at a time.</span>
+        <span class="hljs-comment"># The reader object returns each row as a list.</span>
+        <span class="hljs-keyword">for</span> row_list <span class="hljs-keyword">in</span> reader:
+
+            <span class="hljs-comment"># If the current row is not blank,</span>
+            <span class="hljs-comment"># append it to the compound_list.</span>
+            <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(row_list) != <span class="hljs-number">0</span>:
+
+                <span class="hljs-comment"># Append one row from the CSV</span>
+                <span class="hljs-comment"># file to the compound list.</span>
+                compound_list.append(row_list)
+
+    <span class="hljs-comment"># Return the compound list.</span>
+    <span class="hljs-keyword">return</span> compound_list
+
+
+<span class="hljs-comment"># Call main to start this program.</span>
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    main()</pre><button class="copy" type="button" title="Copy code to the clipboard"><svg viewBox="0 0 512 512"><title>Copy code to the clipboard</title><use href="#svgCopy"></use></svg></button></div>
+
+<pre class="console" title="Terminal Window">&gt; python example_4.py
+[['Company Name', 'Address', 'Phone Number', 'Employees',
+'Patients'], ['Eagle Rock Dental Care', '556 Trejo Suite C',
+'208-359-2224', '7', '1205'], ['Apple Tree Dental',
+'33 Winn Drive Suite 2', '208-359-1500', '10', '1520'],
+['Rockhouse Dentistry', '106 E 1st N', '208-356-5600', '12',
+'1982'], ['Cornerstone Family Dental', '44 S Center Street',
+'208-356-4240', '8', '1453']]</pre>
+</div>
+
+    <h3 id="csv_to_dict">Reading a CSV File into a Compound Dictionary<span class="copy" title="Copy URL to the clipboard">§</span></h3>
+    <p>If the values in one of the columns of a CSV file are unique,
+    then a progam can read the contents of a CSV file into a compound
+    dictionary and then use the dictionary to quickly find data. Recall
+    that each item in a dictionary is a key value pair. The values from
+    the unique column in a CSV file will be the keys in the dictionary.
+    The program in example&nbsp;5 shows how to read the data from a CSV
+    file into a compound dictionary. Notice in example&nbsp;5, because
+    of lines&nbsp;<span class="cross" data-ref="ex5" title="Move mouse over to turn on highlights.
+Click to keep highlights on.">9,&nbsp;14,
+    58,&nbsp;and&nbsp;62</span>, that the program uses the dental office
+    phone numbers as the keys in the dictionary.</p>
+
+<div class="example" id="ex5"><pre class="linenums"><span>1</span>
+<span>2</span>
+<span>3</span>
+<span>4</span>
+<span>5</span>
+<span>6</span>
+<span>7</span>
+<span>8</span>
+<span>9</span>
+<span>10</span>
+<span>11</span>
+<span>12</span>
+<span>13</span>
+<span>14</span>
+<span>15</span>
+<span>16</span>
+<span>17</span>
+<span>18</span>
+<span>19</span>
+<span>20</span>
+<span>21</span>
+<span>22</span>
+<span>23</span>
+<span>24</span>
+<span>25</span>
+<span>26</span>
+<span>27</span>
+<span>28</span>
+<span>29</span>
+<span>30</span>
+<span>31</span>
+<span>32</span>
+<span>33</span>
+<span>34</span>
+<span>35</span>
+<span>36</span>
+<span>37</span>
+<span>38</span>
+<span>39</span>
+<span>40</span>
+<span>41</span>
+<span>42</span>
+<span>43</span>
+<span>44</span>
+<span>45</span>
+<span>46</span>
+<span>47</span>
+<span>48</span>
+<span>49</span>
+<span>50</span>
+<span>51</span>
+<span>52</span>
+<span>53</span>
+<span>54</span>
+<span>55</span>
+<span>56</span>
+<span>57</span>
+<span>58</span>
+<span>59</span>
+<span>60</span>
+<span>61</span>
+<span>62</span>
+<span>63</span>
+<span>64</span>
+<span>65</span>
+<span>66</span>
+<span>67</span>
+<span>68</span>
+<span>69</span>
+<span>70</span></pre>
+<div class="code"><pre class="python hljs"><span class="hljs-comment"># Example 5</span>
+
+<span class="hljs-keyword">import</span> csv
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>():</span>
+    <span class="hljs-comment"># Index of the phone number column</span>
+    <span class="hljs-comment"># in the dentists.csv file.</span>
+    PHONE_INDEX = <span class="hljs-number">2</span>
+
+    <span class="hljs-comment"># Read the contents of the dentists.csv into a</span>
+    <span class="hljs-comment"># compound dictionary named dentists_dict. Use</span>
+    <span class="hljs-comment"># the phone numbers as the keys in the dictionary.</span>
+    dentists_dict = read_dictionary(<span class="hljs-string">"dentists.csv"</span>, PHONE_INDEX)
+
+    <span class="hljs-comment"># Print the dentists compound dictionary.</span>
+    <span class="hljs-built_in">print</span>(dentists_dict)
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">read_dictionary</span>(<span class="hljs-params">filename, key_column_index</span>):</span>
+    <span class="hljs-string">"""Read the contents of a CSV file into a compound
+    dictionary and return the dictionary.
+
+    Parameters
+        filename: the name of the CSV file to read.
+        key_column_index: the index of the column
+            to use as the keys in the dictionary.
+    Return: a compound dictionary that contains
+        the contents of the CSV file.
+    """</span>
+    <span class="hljs-comment"># Create an empty dictionary that will</span>
+    <span class="hljs-comment"># store the data from the CSV file.</span>
+    dictionary = {}
+
+    <span class="hljs-comment"># Open the CSV file for reading and store a reference</span>
+    <span class="hljs-comment"># to the opened file in a variable named csv_file.</span>
+    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(filename, <span class="hljs-string">"rt"</span>) <span class="hljs-keyword">as</span> csv_file:
+
+        <span class="hljs-comment"># Use the csv module to create a reader object</span>
+        <span class="hljs-comment"># that will read from the opened CSV file.</span>
+        reader = csv.reader(csv_file)
+
+        <span class="hljs-comment"># The first row of the CSV file contains column</span>
+        <span class="hljs-comment"># headings and not data, so this statement skips</span>
+        <span class="hljs-comment"># the first row of the CSV file.</span>
+        <span class="hljs-built_in">next</span>(reader)
+
+        <span class="hljs-comment"># Read the rows in the CSV file one row at a time.</span>
+        <span class="hljs-comment"># The reader object returns each row as a list.</span>
+        <span class="hljs-keyword">for</span> row_list <span class="hljs-keyword">in</span> reader:
+
+            <span class="hljs-comment"># If the current row is not blank, add the</span>
+            <span class="hljs-comment"># data from the current to the dictionary.</span>
+            <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(row_list) != <span class="hljs-number">0</span>:
+
+                <span class="hljs-comment"># From the current row, retrieve the data</span>
+                <span class="hljs-comment"># from the column that contains the key.</span>
+                key = row_list[key_column_index]
+
+                <span class="hljs-comment"># Store the data from the current</span>
+                <span class="hljs-comment"># row into the dictionary.</span>
+                dictionary[key] = row_list
+
+    <span class="hljs-comment"># Return the dictionary.</span>
+    <span class="hljs-keyword">return</span> dictionary
+
+
+<span class="hljs-comment"># Call main to start this program.</span>
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    main()</pre><button class="copy" type="button" title="Copy code to the clipboard"><svg viewBox="0 0 512 512"><title>Copy code to the clipboard</title><use href="#svgCopy"></use></svg></button></div>
+
+<pre class="console" title="Terminal Window">&gt; python example_5.py
+{'208-359-2224': ['Eagle Rock Dental Care', '556 Trejo Suite C', '208-359-2224', 7, 1205],
+'208-359-1500': ['Apple Tree Dental', '33 Winn Drive Suite 2', '208-359-1500', 10, 1520],
+'208-356-5600': ['Rockhouse Dentistry', '106 E 1st N', '208-356-5600', 12, 1982],
+'208-356-4240': ['Cornerstone Family Dental', '44 S Center Street', '208-356-4240', 8, 1453]}</pre>
+</div>
+
+    <h2 id="more_info">Additional Information<span class="copy" title="Copy URL to the clipboard">§</span></h2>
+    <p>The following tutorials contain additional information that you
+    may find helpful. You are not required to read these tutorials.</p>
+
+    <ul class="tutorials">
+        <li><div><a href="https://realpython.com/python-for-loop/">Python "for" Loops</a></div></li>
+        <li><div><a href="https://byui-cse.github.io/cse111-course/lesson09/write_text.html">Writing Text Files in Python</a></div></li>
+    </ul>
+
+    <h2 id="summary">Summary<span class="copy" title="Copy URL to the clipboard">§</span></h2>
+    <p>A text file stores words and numbers as human readable text.
+    During this lesson, you are learning how to write Python code to
+    read from text files. To read from a text file, your program must
+    first open the file by calling the built-in <code>open</code>
+    function. You should write the code to open a file in a Python
+    <code>with</code> block because the computer will automatically
+    close the file when the <code>with</code> block ends, and you won’t
+    need to remember to write code to close the file.</p>
+
+    <p>A CSV file is a text file that contains rows and columns of data.
+    CSV is an acronym that stands for comma separated values. Within
+    each row in a CSV file, the data values are separated by commas.
+    Python includes a standard module named <code>csv</code> that helps
+    us easily write code to read from CSV files. Sometimes a program
+    simply needs to use the values in a CSV file in calculations, so we
+    write Python code to perform calculations for each row. Other times,
+    we write Python code to read the contents of a CSV file into a
+    compound list or compound dictionary.</p>
+</article>
+
+
+<svg class="cache"><svg xmlns="http://www.w3.org/2000/svg"><style>.stroke{stroke-width:8;stroke-linecap:round;stroke-linejoin:round;fill:none}.fill{stroke:none;fill:white}</style><defs><g id="svgBYUILogo" viewBox="0 0 88.48 52.39"><path d="m2.45 2.02v21.07c0 .68 0 .92-.45 1.23a4.79 4.79 0 0 1-1.73.47c-.08 0-.06.32 0 .32h17c7.18 0 10.21-2.86 10.21-7.3 0-3.3-1.53-5.31-4.57-6.06a.05.05 0 0 1 0-.1c1.93-.6 3.72-2 3.72-5.43 0-4.64-3.15-6.21-10-6.21h-16.36c-.08 0-.09.3 0 .32a4.77 4.77 0 0 1 1.74.48c.49.3.44.53.44 1.22m8 17.68v-5a3.52 3.52 0 0 0 0-.6 4.18 4.18 0 0 0 .6.05h2.79c2.22 0 4.94 0 4.94 3.08 0 2.27-2 3.08-4.57 3.08h-3.16a4.92 4.92 0 0 0-.59 0 5.44 5.44 0 0 0 0-.6m0-10v-4.42a3.68 3.68 0 0 0 0-.6 4.18 4.18 0 0 0 .6.05h3.3c2.51 0 4 .39 4 2.67 0 1.48-.91 2.81-3.88 2.81h-3.4a4.92 4.92 0 0 0-.59 0 4.92 4.92 0 0 0 0-.59"></path><path d="m48 25.11c.09 0 .1-.3 0-.32a4.79 4.79 0 0 1-1.74-.47c-.48-.31-.45-.55-.45-1.23v-8l8.7-12.9a6.09 6.09 0 0 1 1.17-1.41 3 3 0 0 1 .32-.22 1.65 1.65 0 0 1 .94-.24c.08 0 .1-.31 0-.31h-11.68c-.1 0-.08.31 0 .32.58 0 1.28 0 1.16.83l-5.01 7.96-5.02-7.96c-.08-.99.59-.83 1.15-.83.09 0 .11-.32 0-.32h-12.3c-.08 0-.07.28 0 .31a3.24 3.24 0 0 1 1.43.32 1.41 1.41 0 0 1 .31.21 5.52 5.52 0 0 1 1.11 1.34l8.67 12.85v8.05c0 .68.05.92-.44 1.23a4.79 4.79 0 0 1-1.74.47c-.08 0-.06.32 0 .32z"></path><path d="m86.1 2.02c0-.69 0-.93.44-1.23a4.79 4.79 0 0 1 1.74-.47c.08 0 .07-.31 0-.31h-12.57c-.08 0-.1.3 0 .32a3.63 3.63 0 0 1 1.64.47c.48.3.44.55.44 1.23v12.66c0 2.89-1.66 5.11-4.94 5.11s-4.94-2.22-4.94-5.11v-12.67c0-.68 0-.93.45-1.23a4 4 0 0 1 1.64-.47c.08 0 .07-.31 0-.31h-11.87c-.09 0-.07.29 0 .31a1.53 1.53 0 0 1 1 .28c.39.33.46.73.46 1.42v12.45c0 6 3.28 11.09 13.24 11.09s13.25-5.1 13.25-11.09z"></path><path d="m88.02 31.15h-87.67a.36.36 0 0 1 0-.72h87.67a.36.36 0 0 1 0 .72"></path><path d="m.2 52.3c-.07 0-.07-.29 0-.32a5.59 5.59 0 0 0 1.88-.41c.28-.17.51-.59.51-5.38v-3.55c0-4.8-.23-5.24-.51-5.39a5.59 5.59 0 0 0-1.88-.41c-.1 0-.1-.32 0-.32h6.58c.07 0 .1.29 0 .32a5.49 5.49 0 0 0-1.85.41c-.31.15-.53.59-.53 5.39v3.55c0 4.79.22 5.21.53 5.38a5.49 5.49 0 0 0 1.85.41c.13 0 .1.32 0 .32z"></path><path d="m18.56 37.3c-1.46 0-2.07.19-2.24.41s-.37 1.27-.37 4.82v3.63c0 3.12.23 4.34.54 4.68s1 .63 2.27.63c4.76 0 7-2.27 7-6.85a7 7 0 0 0-7.16-7.32m6.87 12.56c-1.68 1.68-3.53 2.41-6.65 2.41-1.07 0-2.8-.05-3.7-.05s-2 .05-3.09.05c-.08 0-.1-.29 0-.31a3.87 3.87 0 0 0 1.65-.42c.32-.17.52-.58.52-5.38v-3.56c0-4.79-.2-5.23-.52-5.38a3.92 3.92 0 0 0-1.65-.41c-.12 0-.1-.32 0-.32 1.07 0 2.19.06 3.09.06s3.14-.06 4.23-.06c4.9 0 8.43 3.29 8.43 7.69a8.16 8.16 0 0 1-2.31 5.68"></path><path d="m38.3 39.47-2.09 5.83h4.31zm3 12.78c-.07 0-.1-.29 0-.31.75-.08 1.22-.22 1.22-.59s-.32-1.51-1.71-5h-5c-1.14 3.13-1.41 4.33-1.41 4.84s.34.66 1.39.76c.09 0 .07.31 0 .31h-5c-.07 0-.13-.29 0-.31a3.18 3.18 0 0 0 1.53-.47c.24-.19.68-.53 2.44-5.33l1.29-3.55c.75-2.05 1.55-4.17 2.16-6.06.06-.18.78-.18.83 0 .74 2.11 1.37 3.84 2.22 6.06l1.38 3.55c1.9 4.8 2.22 5.16 2.56 5.38a2.91 2.91 0 0 0 1.47.42c.09 0 .06.31 0 .31z"></path><path d="m61.94 52.3c-.09 0-.09-.29 0-.31a3.87 3.87 0 0 0 1.65-.42c.3-.17.52-.58.52-5.38v-1.51h-9.17v1.51c0 4.8.22 5.21.51 5.38a3.94 3.94 0 0 0 1.66.42c.12 0 .12.31.05.31h-6.22c-.08 0-.1-.29 0-.31a4 4 0 0 0 1.65-.42c.32-.17.51-.58.51-5.38v-3.55c0-4.8-.19-5.24-.51-5.39a4 4 0 0 0-1.65-.41c-.12 0-.1-.32 0-.32h6.18c.07 0 .07.3-.05.32a4 4 0 0 0-1.66.41c-.29.15-.51.59-.51 5.39v1.14h9.21v-1.14c0-4.8-.22-5.24-.52-5.39a3.92 3.92 0 0 0-1.65-.41c-.12 0-.12-.32 0-.32h6.17c.09 0 .09.3 0 .32a4.09 4.09 0 0 0-1.66.41c-.29.15-.51.59-.51 5.39v3.55c0 4.8.22 5.21.51 5.38a4 4 0 0 0 1.66.42c.12 0 .12.31 0 .31z"></path><path d="m79.82 37.23c-4.36 0-5.8 3.48-5.8 6.62 0 4 2.51 7.64 6.41 7.64 4.33 0 5.77-3.47 5.77-6.62 0-4-2.48-7.64-6.38-7.64m.12 15.17a7.7 7.7 0 0 1-7.94-7.84 8.22 8.22 0 0 1 8.28-8.23 7.68 7.68 0 0 1 7.94 7.83 8.21 8.21 0 0 1-8.28 8.24"></path></g><symbol id="svgBars" viewBox="0 0 56 64"><path class="stroke" d="M4,12H52M4,32H52M4,52H52"></path></symbol><symbol id="svgClose" viewBox="0 0 56 64"><path class="stroke" d="M12,16L44,48M12,48L44,16"></path></symbol><symbol id="svgLeft" viewBox="0 0 64 64"><path class="stroke" d="M56,32H8M28,12L8,32L28,52"></path></symbol><symbol id="svgList" viewBox="0 0 64 64"><rect x="0" y="7" width="10" height="10" rx="2"></rect><rect x="0" y="27" width="10" height="10" rx="2"></rect><rect x="0" y="47" width="10" height="10" rx="2"></rect><path class="stroke" d="M24,12H60M24,32H60M24,52H60"></path></symbol><symbol id="svgMagnify" viewBox="0 0 64 64"><path class="stroke" d="M48,26A16,16 0 1 0 4,26A16,16 0 1 0 48,26M44,44L60,60"></path></symbol><symbol id="svgMoon" viewBox="0 0 64 64"><path class="fill" d="M38.4,6A26,26 0 1 0 54.4,50A26,26 0 0 1 38.4,6"></path></symbol><symbol id="svgQuestion" viewBox="0 0 64 64"><path class="stroke" d="M16,18A16,12 0 0 1 48,18A8,12 0 0 1 42,32C40,33 36,34.5 34,35.5C30,37.25 30,37.5 30,43"></path><circle class="fill" cx="30" cy="57" r="5"></circle></symbol><symbol id="svgRight" viewBox="0 0 64 64"><path class="stroke" d="M8,32H56M36,12L56,32L36,52"></path></symbol><symbol id="svgSun" viewBox="0 0 64 64" class="fill"><circle cx="32" cy="32" r="16"></circle><path d="M51.32,26.82A20,20 0 0 151.32,37.18L64,32ZM49.32,42A20,20 0 0 142,49.32L54.63,54.63ZM37.18,51.32A20,20 0 0 126.82,51.32L32,64ZM22,49.32A20,20 0 0 114.68,42L9.37,54.63ZM12.68,37.18A20,20 0 0 112.68,26.82L0,32ZM14.68,22A20,20 0 0 122,14.68L9.37,9.37ZM26.82,12.68A20,20 0 0 137.18,12.68L32,0ZM42,14.68A20,20 0 0 149.32,22L54.63,9.37Z"></path></symbol><symbol id="svgUp" viewBox="0 0 48 64"><path class="stroke" d="M24,60V4M8,20L24,4L40,20"></path></symbol><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><symbol id="svgCopy" viewBox="0 0 512 512"><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"></path></symbol><symbol id="svgFilePDF" viewBox="0 0 384 512"><path d="M320 464C328.8 464 336 456.8 336 448V416H384V448C384 483.3 355.3 512 320 512H64C28.65 512 0 483.3 0 448V416H48V448C48 456.8 55.16 464 64 464H320zM256 160C238.3 160 224 145.7 224 128V48H64C55.16 48 48 55.16 48 64V192H0V64C0 28.65 28.65 0 64 0H229.5C246.5 0 262.7 6.743 274.7 18.75L365.3 109.3C377.3 121.3 384 137.5 384 154.5V192H336V160H256zM88 224C118.9 224 144 249.1 144 280C144 310.9 118.9 336 88 336H80V368C80 376.8 72.84 384 64 384C55.16 384 48 376.8 48 368V240C48 231.2 55.16 224 64 224H88zM112 280C112 266.7 101.3 256 88 256H80V304H88C101.3 304 112 293.3 112 280zM160 240C160 231.2 167.2 224 176 224H200C226.5 224 248 245.5 248 272V336C248 362.5 226.5 384 200 384H176C167.2 384 160 376.8 160 368V240zM192 352H200C208.8 352 216 344.8 216 336V272C216 263.2 208.8 256 200 256H192V352zM336 224C344.8 224 352 231.2 352 240C352 248.8 344.8 256 336 256H304V288H336C344.8 288 352 295.2 352 304C352 312.8 344.8 320 336 320H304V368C304 376.8 296.8 384 288 384C279.2 384 272 376.8 272 368V240C272 231.2 279.2 224 288 224H336z"></path></symbol><symbol id="svgFileZip" viewBox="0 0 384 512"><path d="M365.3 93.38l-74.63-74.64C278.6 6.742 262.3 0 245.4 0L64-.0001c-35.35 0-64 28.65-64 64l.0065 384c0 35.34 28.65 64 64 64H320c35.2 0 64-28.8 64-64V138.6C384 121.7 377.3 105.4 365.3 93.38zM336 448c0 8.836-7.164 16-16 16H64.02c-8.838 0-16-7.164-16-16L48 64.13c0-8.836 7.164-16 16-16h48V64h64V48.13h48.01L224 128c0 17.67 14.33 32 32 32h79.1V448zM176 96h-64v32h64V96zM176 160h-64v32h64V160zM176 224h-64l-30.56 116.5C73.51 379.5 103.7 416 144.3 416c40.26 0 70.45-36.3 62.68-75.15L176 224zM160 368H128c-8.836 0-16-7.164-16-16s7.164-16 16-16h32c8.836 0 16 7.164 16 16S168.8 368 160 368z"></path></symbol></defs></svg></svg><footer><div>Last modified 2022-12-08<br>Copyright © 2020, Brigham Young University–Idaho. All rights reserved.</div><button class="up" type="button" title="Scroll to the top of this document"><svg viewBox="0 0 48 64"><title>Scroll to the top of this document</title><use href="#svgUp"></use></svg></button></footer></body></html>
